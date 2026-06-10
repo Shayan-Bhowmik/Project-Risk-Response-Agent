@@ -47,3 +47,21 @@ def save_risk(risk_input, strategy, ai_response, rating):
     session.commit()
     #e. closing the session
     session.close()
+
+
+#7. Function to get all the risk entries from the database
+def get_all_risks():
+    #a. import the riskentry model
+    from database.models import RiskEntry
+
+    #b. creating a session
+    session = SessionLocal()
+
+    #c. Quering for all the risk entries
+    risks = session.query(RiskEntry).all()
+
+    #d. close the session
+    session.close()
+
+    #e. return the results
+    return risks
