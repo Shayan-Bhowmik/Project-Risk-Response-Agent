@@ -23,3 +23,27 @@ SessionLocal = sessionmaker(bind=engine)
 
 #5. creating a base class for inheritance for models
 Base = declarative_base()
+
+
+
+
+
+
+
+#6. this is the function to save a risk entry in the database
+def save_risk(risk_input, strategy, ai_response, rating):
+
+    #a. importing the risk entry model
+    from database.models import RiskEntry
+
+    #b. creating a session
+    session = SessionLocal()
+    
+    #c. creating a risk entry object with the data here
+    new_risk = RiskEntry(risk_input=risk_input, strategy=strategy, ai_response=ai_response, rating = rating)
+    
+    #d. adding it to the session and commit 
+    session.add(new_risk)
+    session.commit()
+    #e. closing the session
+    session.close()
