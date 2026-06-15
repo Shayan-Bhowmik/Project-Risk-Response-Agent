@@ -1,6 +1,7 @@
 #1. here I import base from db.py and column types from sqlalchemy
 from database.db import Base
 from sqlalchemy import Column, Integer, String, Text, DateTime
+import datetime
 
 
 #2. here I will define the RiskEntry class whih will inherit from the base class after i import it
@@ -14,4 +15,4 @@ class RiskEntry(Base):
     strategy = Column(String(50))
     ai_response = Column(Text)
     rating = Column(String(50))
-    created_at = Column(DateTime) 
+    created_at = Column(DateTime, default=datetime.datetime.now) 

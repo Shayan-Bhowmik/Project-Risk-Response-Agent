@@ -2,10 +2,17 @@
 import streamlit as st
 from graphs.graph import graph_app
 from database.db import save_risk
+import dashboard
 
 
 #2. configuring the page layout
-st.set_page_config(page_title="Risk Agent", page_icon="🛡️")
+st.set_page_config(page_title="Risk Agent", page_icon="🛡️", layout="wide")
+st.sidebar.title("Navigation")
+page = st.sidebar.radio("Go to:", ["Risk Agent", "Dashboard"])
+
+if page == "Dashboard":
+    dashboard.show_dashboard()
+    st.stop()
 st.title("Project Risk Response Agent")
 
 #3. initialising session state
