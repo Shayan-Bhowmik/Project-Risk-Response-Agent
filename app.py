@@ -96,3 +96,19 @@ if st.session_state.current_state is not None and st.session_state.current_state
                 result = graph_app.invoke(st.session_state.current_state)
                 st.session_state.current_state = result
                 st.rerun()
+
+
+#8. building screen 4
+#final ai response
+if st.session_state.current_state is not None and st.session_state.current_state.get("ai_response"):
+    st.success(f"Strategy Selected: {st.session_state.current_state.get('strategy')}")
+    st.write("AI Recommended Action Plan")
+
+    #display 5 step action that ai generated
+    st.write(st.session_state.current_state.get("ai_response"))
+    st.divider()
+
+    #option to start again
+    if st.button("Evaluate Another Risk", type="primary"):
+        st.session_state.current_state = None
+        st.rerun()
