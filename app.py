@@ -1,6 +1,8 @@
 #1. importing all the required stuff
 import streamlit as st
 from graphs.graph import graph_app
+from database.db import save_risk
+
 
 #2. configuring the page layout
 st.set_page_config(page_title="Risk Agent", page_icon="🛡️")
@@ -107,6 +109,21 @@ if st.session_state.current_state is not None and st.session_state.current_state
     #display 5 step action that ai generated
     st.write(st.session_state.current_state.get("ai_response"))
     st.divider()
+
+    #9. feedback and database save
+    st.write("Was this helpful?")
+    f_col1, f_col2 = st.columns(2)
+
+    with f_col1:
+        if st.button("Like", use_container_width = True):
+            save_risk(risk_input = st.session_state.current_state.get("user_input"), strategy = st.session_state.current_state.get("strategy"), ai_response = st.session_state.current_state.get("ai_response"), rating = "Like") 
+            st.success("Your Risk has been saved in the Database")
+
+
+    with f_col2:
+        if st.button("Dislike", use_container_width = True):
+            save_risk(risk_input = st.session_state.current_state.get("user_input"), strategy = st.session_state.current_state.get("strategy"), ai_response = st.session_state.current_state.get("ai_response"), rating = "Dislike")
+            st.error("Your Risk has been saved in the Database, We will try to Improve.")
 
     #option to start again
     if st.button("Evaluate Another Risk", type="primary"):
