@@ -57,3 +57,42 @@ if st.session_state.current_state is not None and st.session_state.current_state
                 result = graph_app.invoke({"user_input": combined_input})
                 st.session_state.current_state = result
                 st.rerun()
+
+
+#7. bulding screen 3
+#strategy selection for the user
+if st.session_state.current_state is not None and st.session_state.current_state.get("is_valid_risk") == True and st.session_state.current_state.get("is_detailed") == True and not st.session_state.current_state.get("strategy"):
+    st.success("That is a Valid Detailed Risk")
+    st.write("Choose a Response Strategy")
+
+    #two columns for 2x2 grid
+    col1, col2  = st.columns(2)
+    with col1:
+        if st.button("Mitigate (Reduce Impact)", use_container_width = True):
+            with st.spinner("Generating Action Plan"):
+                st.session_state.current_state["strategy"] = "Mitigate"
+                result = graph_app.invoke(st.session_state.current_state)
+                st.session_state.current_state = result
+                st.rerun()
+        
+        if st.button("Accept (Monitor)", use_container_width = True):
+            with st.spinner("Generating Action Plan"):
+                st.session_state.current_state["strategy"] = "Accept"
+                result = graph_app.invoke(st.session_state.current_state)
+                st.session_state.current_state = result
+                st.rerun()
+
+    with col2:
+        if st.button("Transfer (Shift to Third Party)", use_container_width = True):
+            with st.spinner("Generating Action Plan"):
+                st.session_state.current_state["strategy"] = "Transfer"
+                result = graph_app.invoke(st.session_state.current_state)
+                st.session_state.current_state = result
+                st.rerun()
+        
+        if st.button("Avoid (Change Plan)", use_container_width = True):
+            with st.spinner("Generating Action Plan"):
+                st.session_state.current_state["strategy"] = "Avoid"
+                result = graph_app.invoke(st.session_state.current_state)
+                st.session_state.current_state = result
+                st.rerun()

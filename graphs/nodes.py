@@ -24,7 +24,7 @@ def validate_risk(state: RiskState):
     user_input = state["user_input"]
     #b. Call OpenAI using VALIDATE_RISK_PROMPT and the user_input
     response = client.chat.completions.create(
-        model = "openai/gpt-oss-20b:free",
+        model = "openai/gpt-oss-120b:free",
         messages = [
             {"role": "system", "content": VALIDATE_RISK_PROMPT},
             {"role": "user", "content": user_input}
@@ -32,8 +32,10 @@ def validate_risk(state: RiskState):
     )
     #c. Read the JSON response from OpenAI
     raw1_response = response.choices[0].message.content
+    
     #d. Parse the JSON string into a Python dictionary using json.loads()
     parsed_data = json.loads(raw1_response)
+    
     #e. Return the updated state fields
     return {
         "is_valid_risk": parsed_data["is_project_risk"],
@@ -52,7 +54,7 @@ def generate_response(state: RiskState):
     
     # c. Call OpenAI using GENERATE_RESPONSE_PROMPT and the combined string
     response = client.chat.completions.create(
-        model = "openai/gpt-oss-20b:free",
+        model = "openai/gpt-oss-120b:free",
         messages = [
             {"role": "system", "content": GENERATE_RESPONSE_PROMPT},
             {"role": "user", "content": combined_input}
