@@ -6,3 +6,4 @@ __pycache__/
 my_notes.txt
 test_db.py
 test_prompts.py
+*.db

@@ -7,17 +7,12 @@ from urllib.parse import quote_plus
 
 #1. this will load the environment variables from the .env file
 load_dotenv()
-DB_HOST = os.getenv("DB_HOST")
-DB_PORT = os.getenv("DB_PORT")
-DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
-DB_NAME = os.getenv("DB_NAME")
 
-#2. here the mysql connection is built from .env file
-DATABASE_URL = f"mysql+pymysql://{DB_USER}:{quote_plus(DB_PASSWORD)}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+#2. SQLite connection instead of MySQL
+DATABASE_URL = "sqlite:///risks.db"
 
 #3. creating sqlalchemy engine here
-engine = create_engine(DATABASE_URL)
+engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 
 #4. creating a session
 SessionLocal = sessionmaker(bind=engine)
@@ -66,3 +61,7 @@ def get_all_risks():
 
     #e. return the results
     return risks
+
+# 8. Initialize database automatically for SQLite
+from database.models import RiskEntry
+Base.metadata.create_all(bind=engine)
